@@ -4,6 +4,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 from analytics import PerformanceAnalytics
 from reporting import ReportGenerator
+import os
 
 class LactateApp(ctk.CTk):
     def __init__(self):
@@ -23,6 +24,7 @@ class LactateApp(ctk.CTk):
         self.sidebar.grid(row=0, column=0, sticky="nsew")
 
         ctk.CTkLabel(self.sidebar, text="Diagnostics Input", font=("Helvetica", 20, "bold")).pack(pady=20)
+        self.athlete_name = self._create_input("Athlete Name:", "Max Mustermann")
         self.watt_input = self._create_input("Watt Steps:", "100, 150, 200, 250, 300, 350")
         self.lactate_input = self._create_input("Lactate Values:", "1.1, 1.3, 1.8, 3.2, 5.5, 9.2")
         self.hr_input = self._create_input("Heart Rate Values:", "115, 128, 144, 161, 175, 188")
@@ -87,6 +89,13 @@ class LactateApp(ctk.CTk):
 
     def save_pdf(self):
         if self.current_data:
-            ReportGenerator.export_pdf("Diagnostic_Report.pdf", 
+
+            if not os.path.exists("Reports"):
+                os.makedirs("Reports")
+                
+            name = self.athlete_name.get().split(" ")
+            
+            filename = f"Reports/{name[0]}_{name[1]}_report.pdf"
+            ReportGenerator.export_pdf(filename, self.athlete_name.get(), 
                                      self.current_data["td_w"], self.current_data["td_hr"], 
-                                     self.current_data["zones"], "AI Analysis: Aerobic efficiency is high.")
+                                     self.current_data["zones"], "AI Analysis: tba")
