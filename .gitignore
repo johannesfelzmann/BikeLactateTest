@@ -1,0 +1,20 @@
+Reports/
+*.pdf
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# --- IDEs ---
+.vscode/
+.idea/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+TODO

@@ -9,11 +9,19 @@ import os
 class LactateApp(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Pro Lab Analyzer v4.1")
+        self.title("Bike Lactate Test")
         self.geometry("1300x900")
         ctk.set_appearance_mode("dark")
         self.current_data = None
         self._setup_ui()
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+    def on_closing(self):
+        """Clean up resources before closing."""
+        plt.close('all') 
+        
+        self.quit()
+        self.destroy()
 
     def _setup_ui(self):
         self.grid_columnconfigure(1, weight=1)
