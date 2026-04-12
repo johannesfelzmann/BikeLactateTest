@@ -5,6 +5,8 @@ import numpy as np
 from analytics import PerformanceAnalytics
 from reporting import ReportGenerator
 import os
+from ai_integration import AIPhysiologist
+from dotenv import load_dotenv
 
 class LactateApp(ctk.CTk):
     def __init__(self):
@@ -33,6 +35,7 @@ class LactateApp(ctk.CTk):
 
         ctk.CTkLabel(self.sidebar, text="Diagnostics Input", font=("Helvetica", 20, "bold")).pack(pady=20)
         self.athlete_name = self._create_input("Athlete Name:", "Max Mustermann")
+        self.athlete_age = self._create_input("Age:", "26")
         self.watt_input = self._create_input("Watt Steps:", "100, 150, 200, 250, 300, 350")
         self.lactate_input = self._create_input("Lactate Values:", "1.1, 1.3, 1.8, 3.2, 5.5, 9.2")
         self.hr_input = self._create_input("Heart Rate Values:", "115, 128, 144, 161, 175, 188")
@@ -104,6 +107,21 @@ class LactateApp(ctk.CTk):
             name = self.athlete_name.get().split(" ")
             
             filename = f"Reports/{name[0]}_{name[1]}_report.pdf"
-            ReportGenerator.export_pdf(filename, self.athlete_name.get(), 
+            
+            load_dotenv()
+            api_key = os.getenv("GEMINI_API_KEY")
+            ai_coach = AIPhysiologist(api_key)
+            
+            ai_comment = ai_coach.analyze_test(
+                self.athlete_name,
+                self.current_data["td_w"],
+                self.current_data["td_hr"],
+                self.current_data["zones"]
+            )
+            
+            
+            ReportGenerator.export_pdf(filename, self.athlete_name.get(), self.athlete_age.get(), 
                                      self.current_data["td_w"], self.current_data["td_hr"], 
-                                     self.current_data["zones"], "AI Analysis: tba")
+                                     self.current_data["zones"], f"{ai_comment}")
+            
+            self.result_box.insert("end", f"\nReport for {self.athlete_name.get()} saved!")

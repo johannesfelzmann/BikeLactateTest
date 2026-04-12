@@ -42,7 +42,8 @@ BikeLactateTest/
 ├── main.py              # Entry point to launch the application
 ├── analytics.py         # Business logic: Curve fitting and threshold math
 ├── reporting.py         # Export module: PDF and CSV generation
-└── ui.py                # View module: GUI layout and plot rendering
+├── ui.py                # View module: GUI layout and plot rendering
+└── ai_integration.py    # AI module: AI integration for reporting
 ```
 
 ## Installation
@@ -56,7 +57,7 @@ cd BikeLactateTest
 2. Install dependencies:
 The project requires Python 3.8+ and the following libraries:
 ```text
-pip install customtkinter matplotlib numpy scipy fpdf2
+pip install customtkinter matplotlib numpy scipy fpdf2 openai google-genai
 ```
 
 ## Usage

@@ -4,14 +4,14 @@ import datetime
 class ReportGenerator:
     """Handles professional data export to PDF."""
     @staticmethod
-    def export_pdf(filename, athlete_name, tdmax_w, tdmax_hr, zones, ai_text):
+    def export_pdf(filename, athlete_name, athlete_age, tdmax_w, tdmax_hr, zones, ai_text):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Helvetica", "B", 16)
         pdf.cell(0, 10, "Bike Performance Test Report", ln=True, align='C')
         pdf.set_font("Helvetica", "", 10)
         pdf.cell(0, 10, f"Date: {datetime.date.today()}", ln=True, align='C')
-        pdf.cell(0, 10, f"Name: {athlete_name}", ln=True, align='C')
+        pdf.cell(0, 0, f"Name: {athlete_name} \t Age: {athlete_age}", ln=False, align='C')
         pdf.ln(10)
         
         # Results
